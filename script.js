@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!navbar) return;
 
+
         if (window.scrollY > 40) {
 
             navbar.classList.add(
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { passive: true }
     );
 
+
     updateNavbar();
 
 
@@ -57,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById(
             "menuToggle"
         );
+
 
     const mobileMenu =
         document.getElementById(
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 menuToggle.setAttribute(
                     "aria-expanded",
-                    isOpen
+                    String(isOpen)
                 );
 
 
@@ -100,25 +103,33 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-        mobileLinks.forEach((link) => {
+        mobileLinks.forEach(
+            (link) => {
 
-            link.addEventListener(
-                "click",
-                () => {
+                link.addEventListener(
+                    "click",
+                    () => {
 
-                    mobileMenu.classList.remove(
-                        "open"
-                    );
+                        mobileMenu.classList.remove(
+                            "open"
+                        );
 
-                    menuToggle.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
 
-                }
-            );
+                        menuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
 
-        });
+
+                        menuToggle.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+            }
+        );
 
     }
 
@@ -145,51 +156,69 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    const observer =
-        new IntersectionObserver(
-            (entries, observer) => {
+    if (
+        "IntersectionObserver" in window
+    ) {
 
-                entries.forEach(
-                    (entry) => {
+        const observer =
+            new IntersectionObserver(
+                (entries, observer) => {
 
-                        if (
-                            !entry.isIntersecting
-                        ) {
-                            return;
+                    entries.forEach(
+                        (entry) => {
+
+                            if (
+                                !entry.isIntersecting
+                            ) {
+                                return;
+                            }
+
+
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
                         }
+                    );
+
+                },
+                {
+                    threshold: 0.12,
+
+                    rootMargin:
+                        "0px 0px -50px 0px"
+                }
+            );
 
 
-                        entry.target.classList.add(
-                            "visible"
-                        );
+        animatedElements.forEach(
+            (element) => {
 
-
-                        observer.unobserve(
-                            entry.target
-                        );
-
-                    }
+                observer.observe(
+                    element
                 );
 
-            },
-            {
-                threshold: 0.12,
-
-                rootMargin:
-                    "0px 0px -50px 0px"
             }
         );
 
+    } else {
 
-    animatedElements.forEach(
-        (element) => {
+        animatedElements.forEach(
+            (element) => {
 
-            observer.observe(
-                element
-            );
+                element.classList.add(
+                    "visible"
+                );
 
-        }
-    );
+            }
+        );
+
+    }
 
 
 
@@ -283,73 +312,80 @@ document.addEventListener("DOMContentLoaded", () => {
             "section[id]"
         );
 
+
     const navLinks =
         document.querySelectorAll(
             ".navbar nav a"
         );
 
 
-    const sectionObserver =
-        new IntersectionObserver(
-            (entries) => {
+    if (
+        "IntersectionObserver" in window
+    ) {
 
-                entries.forEach(
-                    (entry) => {
+        const sectionObserver =
+            new IntersectionObserver(
+                (entries) => {
 
-                        if (
-                            !entry.isIntersecting
-                        ) {
-                            return;
-                        }
+                    entries.forEach(
+                        (entry) => {
 
-
-                        const id =
-                            entry.target.id;
-
-
-                        navLinks.forEach(
-                            (link) => {
-
-                                link.classList.remove(
-                                    "active"
-                                );
+                            if (
+                                !entry.isIntersecting
+                            ) {
+                                return;
+                            }
 
 
-                                if (
-                                    link.getAttribute(
-                                        "href"
-                                    ) ===
-                                    `#${id}`
-                                ) {
+                            const id =
+                                entry.target.id;
 
-                                    link.classList.add(
+
+                            navLinks.forEach(
+                                (link) => {
+
+                                    link.classList.remove(
                                         "active"
                                     );
 
+
+                                    if (
+                                        link.getAttribute(
+                                            "href"
+                                        ) ===
+                                        `#${id}`
+                                    ) {
+
+                                        link.classList.add(
+                                            "active"
+                                        );
+
+                                    }
+
                                 }
+                            );
 
-                            }
-                        );
+                        }
+                    );
 
-                    }
+                },
+                {
+                    threshold: 0.35
+                }
+            );
+
+
+        sections.forEach(
+            (section) => {
+
+                sectionObserver.observe(
+                    section
                 );
 
-            },
-            {
-                threshold: 0.35
             }
         );
 
-
-    sections.forEach(
-        (section) => {
-
-            sectionObserver.observe(
-                section
-            );
-
-        }
-    );
+    }
 
 
 
@@ -358,440 +394,52 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     const particleContainer =
-        document.createElement(
-            "div"
+        document.getElementById(
+            "backgroundParticles"
         );
 
 
-    particleContainer.className =
-        "background-particles";
+    if (particleContainer) {
+
+        /*
+         * Der Container ist bereits
+         * in der HTML vorhanden.
+         *
+         * Dadurch wird kein zweiter
+         * Container erzeugt.
+         */
+
+        particleContainer.innerHTML = "";
 
 
-    document.body.prepend(
-        particleContainer
-    );
+        const particleCount =
+            window.innerWidth < 700
+                ? 18
+                : 35;
 
 
-    const particleCount =
-        window.innerWidth < 700
-            ? 18
-            : 35;
+        for (
+            let i = 0;
+            i < particleCount;
+            i++
+        ) {
 
-
-    for (
-        let i = 0;
-        i < particleCount;
-        i++
-    ) {
-
-        const particle =
-            document.createElement(
-                "span"
-            );
-
-
-        particle.className =
-            "particle";
-
-
-        particle.style.left =
-            `${Math.random() * 100}%`;
-
-
-        particle.style.animationDuration =
-            `${8 + Math.random() * 15}s`;
-
-
-        particle.style.animationDelay =
-            `${Math.random() * 12}s`;
-
-
-        const size =
-            1 + Math.random() * 3;
-
-
-        particle.style.width =
-            `${size}px`;
-
-
-        particle.style.height =
-            `${size}px`;
-
-
-        particleContainer.appendChild(
-            particle
-        );
-
-    }
-
-
-
-    /* =====================================================
-       GAME CARD 3D EFFECT
-       ===================================================== */
-
-    const gameCards =
-        document.querySelectorAll(
-            ".game-card"
-        );
-
-
-    gameCards.forEach(
-        (card) => {
-
-            const image =
-                card.querySelector(
-                    ".game-image"
+            const particle =
+                document.createElement(
+                    "span"
                 );
 
 
-            card.addEventListener(
-                "mousemove",
-                (event) => {
+            particle.className =
+                "particle";
 
-                    if (
-                        window.innerWidth < 900
-                    ) {
-                        return;
-                    }
 
+            particle.style.left =
+                `${Math.random() * 100}%`;
 
-                    const rect =
-                        card.getBoundingClientRect();
 
+            particle.style.top =
+                `${Math.random() * 100}%`;
 
-                    const x =
-                        event.clientX -
-                        rect.left;
 
-
-                    const y =
-                        event.clientY -
-                        rect.top;
-
-
-                    const centerX =
-                        rect.width / 2;
-
-
-                    const centerY =
-                        rect.height / 2;
-
-
-                    const rotateX =
-                        (y - centerY) /
-                        25;
-
-
-                    const rotateY =
-                        (centerX - x) /
-                        25;
-
-
-                    card.style.transform =
-                        `
-                        perspective(900px)
-                        rotateX(${rotateX}deg)
-                        rotateY(${rotateY}deg)
-                        translateY(-8px)
-                        scale(1.015)
-                        `;
-
-
-                    if (image) {
-
-                        image.style.transform =
-                            `
-                            scale(1.1)
-                            translate(
-                                ${rotateY * 0.25}px,
-                                ${rotateX * 0.25}px
-                            )
-                            `;
-
-                    }
-
-                }
-            );
-
-
-            card.addEventListener(
-                "mouseleave",
-                () => {
-
-                    card.style.transform =
-                        "";
-
-
-                    if (image) {
-
-                        image.style.transform =
-                            "";
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-
-    /* =====================================================
-       HERO MOUSE PARALLAX
-       ===================================================== */
-
-    const heroGlow =
-        document.querySelector(
-            ".hero-glow"
-        );
-
-    const heroGrid =
-        document.querySelector(
-            ".hero-grid"
-        );
-
-    const heroLogo =
-        document.querySelector(
-            ".hero-logo img"
-        );
-
-
-    if (
-        heroGlow ||
-        heroGrid ||
-        heroLogo
-    ) {
-
-        window.addEventListener(
-            "mousemove",
-            (event) => {
-
-                if (
-                    window.innerWidth < 800
-                ) {
-                    return;
-                }
-
-
-                const x =
-                    event.clientX /
-                    window.innerWidth -
-                    0.5;
-
-
-                const y =
-                    event.clientY /
-                    window.innerHeight -
-                    0.5;
-
-
-                if (heroGlow) {
-
-                    heroGlow.style.transform =
-                        `
-                        translate(
-                            ${x * -35}px,
-                            ${y * -35}px
-                        )
-                        `;
-
-                }
-
-
-                if (heroGrid) {
-
-                    heroGrid.style.transform =
-                        `
-                        translate(
-                            ${x * 12}px,
-                            ${y * 12}px
-                        )
-                        `;
-
-                }
-
-
-                if (heroLogo) {
-
-                    heroLogo.style.transform =
-                        `
-                        translate(
-                            ${x * 5}px,
-                            ${y * 5}px
-                        )
-                        `;
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       BUTTON RIPPLE
-       ===================================================== */
-
-    const buttons =
-        document.querySelectorAll(
-            ".button.primary, .discord-button"
-        );
-
-
-    buttons.forEach(
-        (button) => {
-
-            button.addEventListener(
-                "click",
-                (event) => {
-
-                    const href =
-                        button.getAttribute(
-                            "href"
-                        );
-
-
-                    if (
-                        href &&
-                        href.startsWith("#") &&
-                        href !== "#"
-                    ) {
-                        return;
-                    }
-
-
-                    const ripple =
-                        document.createElement(
-                            "span"
-                        );
-
-
-                    ripple.style.position =
-                        "absolute";
-
-
-                    ripple.style.width =
-                        "20px";
-
-
-                    ripple.style.height =
-                        "20px";
-
-
-                    ripple.style.borderRadius =
-                        "50%";
-
-
-                    ripple.style.background =
-                        "rgba(255,255,255,0.35)";
-
-
-                    ripple.style.transform =
-                        "translate(-50%, -50%)";
-
-
-                    ripple.style.pointerEvents =
-                        "none";
-
-
-                    ripple.style.left =
-                        `${
-                            event.clientX -
-                            button.getBoundingClientRect().left
-                        }px`;
-
-
-                    ripple.style.top =
-                        `${
-                            event.clientY -
-                            button.getBoundingClientRect().top
-                        }px`;
-
-
-                    ripple.animate(
-                        [
-                            {
-                                width: "20px",
-                                height: "20px",
-                                opacity: 0.7
-                            },
-
-                            {
-                                width: "400px",
-                                height: "400px",
-                                opacity: 0
-                            }
-                        ],
-                        {
-                            duration: 600,
-                            easing: "ease-out"
-                        }
-                    );
-
-
-                    button.appendChild(
-                        ripple
-                    );
-
-
-                    setTimeout(
-                        () => {
-                            ripple.remove();
-                        },
-                        650
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-
-    /* =====================================================
-       CURRENT YEAR
-       ===================================================== */
-
-    const yearElements =
-        document.querySelectorAll(
-            "[data-year]"
-        );
-
-
-    yearElements.forEach(
-        (element) => {
-
-            element.textContent =
-                new Date().getFullYear();
-
-        }
-    );
-
-
-
-    /* =====================================================
-       REDUCE MOTION
-       ===================================================== */
-
-    const prefersReducedMotion =
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        );
-
-
-    if (
-        prefersReducedMotion.matches
-    ) {
-
-        document.documentElement.style
-            .scrollBehavior = "auto";
-
-    }
-
-
-});
+           
