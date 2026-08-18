@@ -54,7 +54,7 @@ body {
     overflow-x: hidden;
 }
 
-body::selection {
+::selection {
     background: var(--nxt);
     color: white;
 }
@@ -64,19 +64,22 @@ a {
     text-decoration: none;
 }
 
+button {
+    font: inherit;
+}
+
 
 /* =========================================================
-   GLOBAL ANIMATED BACKGROUND
+   GLOBAL BACKGROUND
    ========================================================= */
 
 body::before {
     content: "";
 
     position: fixed;
-
     inset: 0;
 
-    z-index: -10;
+    z-index: -20;
 
     pointer-events: none;
 
@@ -95,7 +98,7 @@ body::before {
 }
 
 
-/* Animated light */
+/* Ambient light */
 
 body::after {
     content: "";
@@ -108,7 +111,8 @@ body::after {
     left: 50%;
     top: 45%;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
     background:
         radial-gradient(
@@ -119,14 +123,13 @@ body::after {
 
     filter: blur(40px);
 
-    z-index: -9;
+    z-index: -19;
 
     pointer-events: none;
 
     animation:
         ambientGlow 12s ease-in-out infinite;
 }
-
 
 @keyframes ambientGlow {
 
@@ -151,10 +154,14 @@ body::after {
 
 
 /* =========================================================
-   PARTICLES
+   ANIMATED BACKGROUND
+   Matches HTML:
+   .animated-background
+   .background-grid
+   .background-glow
    ========================================================= */
 
-.background-particles {
+.animated-background {
     position: fixed;
 
     inset: 0;
@@ -163,7 +170,190 @@ body::after {
 
     pointer-events: none;
 
-    z-index: -5;
+    z-index: -10;
+}
+
+
+/* Background grid */
+
+.background-grid {
+    position: absolute;
+
+    inset: -100px;
+
+    opacity: 0.16;
+
+    background-image:
+        linear-gradient(
+            rgba(139, 92, 246, 0.10) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(139, 92, 246, 0.10) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        60px 60px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 85%
+        );
+
+    -webkit-mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 85%
+        );
+
+    animation:
+        backgroundGridMove 18s linear infinite;
+}
+
+@keyframes backgroundGridMove {
+
+    from {
+        transform:
+            translateY(0);
+    }
+
+    to {
+        transform:
+            translateY(60px);
+    }
+}
+
+
+/* =========================================================
+   BACKGROUND GLOWS
+   ========================================================= */
+
+.background-glow {
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: 0.12;
+
+    will-change: transform;
+}
+
+
+/* Glow 1 */
+
+.glow-1 {
+    top: 10%;
+    left: 45%;
+
+    background:
+        rgba(139, 92, 246, 0.9);
+
+    animation:
+        glowFloat1 12s ease-in-out infinite;
+}
+
+
+/* Glow 2 */
+
+.glow-2 {
+    top: 55%;
+    left: 10%;
+
+    background:
+        rgba(109, 40, 217, 0.8);
+
+    animation:
+        glowFloat2 16s ease-in-out infinite;
+}
+
+
+/* Glow 3 */
+
+.glow-3 {
+    top: 70%;
+    right: 5%;
+
+    background:
+        rgba(167, 139, 250, 0.7);
+
+    animation:
+        glowFloat3 14s ease-in-out infinite;
+}
+
+
+/* Glow animations */
+
+@keyframes glowFloat1 {
+
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-100px, 80px)
+            scale(1.25);
+    }
+}
+
+@keyframes glowFloat2 {
+
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(120px, -80px)
+            scale(1.2);
+    }
+}
+
+@keyframes glowFloat3 {
+
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-100px, -120px)
+            scale(1.3);
+    }
+}
+
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
+
+.background-particles {
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
 }
 
 .particle {
@@ -174,10 +364,12 @@ body::after {
 
     border-radius: 50%;
 
-    background: var(--nxt-light);
+    background:
+        var(--nxt-light);
 
     box-shadow:
-        0 0 10px rgba(167, 139, 250, 0.8);
+        0 0 10px
+        rgba(167, 139, 250, 0.8);
 
     opacity: 0;
 
@@ -231,19 +423,25 @@ body::after {
     height: 76px;
 
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 6%;
+    padding:
+        0 6%;
 
     background:
         rgba(5, 5, 8, 0.62);
 
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.06);
+        1px solid
+        rgba(255, 255, 255, 0.06);
 
     transition:
         background 0.35s ease,
@@ -253,6 +451,9 @@ body::after {
     z-index: 1000;
 }
 
+
+/* Scrolled state */
+
 .navbar.navbar-scrolled {
     background:
         rgba(5, 5, 8, 0.92);
@@ -261,8 +462,11 @@ body::after {
         rgba(139, 92, 246, 0.18);
 
     box-shadow:
-        0 10px 50px rgba(0, 0, 0, 0.45),
-        0 0 30px rgba(139, 92, 246, 0.05);
+        0 10px 50px
+        rgba(0, 0, 0, 0.45),
+
+        0 0 30px
+        rgba(139, 92, 246, 0.05);
 }
 
 
@@ -272,6 +476,7 @@ body::after {
 
 .logo {
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -289,7 +494,8 @@ body::after {
 
     filter:
         drop-shadow(
-            0 0 12px rgba(139, 92, 246, 0.5)
+            0 0 12px
+            rgba(139, 92, 246, 0.5)
         );
 
     transition:
@@ -304,30 +510,36 @@ body::after {
 
     filter:
         drop-shadow(
-            0 0 22px rgba(139, 92, 246, 0.9)
+            0 0 22px
+            rgba(139, 92, 246, 0.9)
         );
 }
 
 .logo-text {
     display: flex;
+
     flex-direction: column;
 
     line-height: 1;
 }
 
 .logo-text strong {
-    color: var(--text);
+    color:
+        var(--text);
 
     font-size: 15px;
+
     font-weight: 800;
 }
 
 .logo-text small {
     margin-top: 4px;
 
-    color: var(--nxt-light);
+    color:
+        var(--nxt-light);
 
     font-size: 7px;
+
     font-weight: 700;
 
     letter-spacing: 2px;
@@ -347,9 +559,11 @@ body::after {
 .navbar nav a {
     position: relative;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     font-size: 14px;
+
     font-weight: 600;
 
     transition:
@@ -360,7 +574,8 @@ body::after {
     color: white;
 
     text-shadow:
-        0 0 15px rgba(167, 139, 250, 0.5);
+        0 0 15px
+        rgba(167, 139, 250, 0.5);
 }
 
 .navbar nav a::after {
@@ -374,7 +589,8 @@ body::after {
     width: 0;
     height: 2px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     background:
         linear-gradient(
@@ -385,7 +601,8 @@ body::after {
         );
 
     box-shadow:
-        0 0 10px var(--nxt);
+        0 0 10px
+        var(--nxt);
 
     transition:
         width 0.3s ease;
@@ -414,14 +631,19 @@ body::after {
     align-items: center;
     justify-content: center;
 
-    padding: 13px 22px;
+    padding:
+        13px 22px;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
     font-size: 14px;
+
     font-weight: 700;
 
     overflow: hidden;
+
+    cursor: pointer;
 
     transition:
         transform 0.3s ease,
@@ -430,7 +652,7 @@ body::after {
 }
 
 
-/* Primary */
+/* Primary button */
 
 .discord-button,
 .button.primary {
@@ -442,7 +664,8 @@ body::after {
         );
 
     box-shadow:
-        0 0 25px rgba(139, 92, 246, 0.25);
+        0 0 25px
+        rgba(139, 92, 246, 0.25);
 }
 
 .discord-button:hover,
@@ -452,12 +675,15 @@ body::after {
         scale(1.02);
 
     box-shadow:
-        0 0 25px rgba(139, 92, 246, 0.45),
-        0 10px 35px rgba(0, 0, 0, 0.3);
+        0 0 25px
+        rgba(139, 92, 246, 0.45),
+
+        0 10px 35px
+        rgba(0, 0, 0, 0.3);
 }
 
 
-/* Button Shine */
+/* Button shine */
 
 .button.primary::before,
 .discord-button::before {
@@ -492,16 +718,18 @@ body::after {
 }
 
 
-/* Secondary */
+/* Secondary button */
 
 .button.secondary {
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
     background:
         rgba(255, 255, 255, 0.035);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:
+        blur(10px);
 }
 
 .button.secondary:hover {
@@ -515,9 +743,9 @@ body::after {
         translateY(-3px);
 
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25);
+        0 10px 30px
+        rgba(0, 0, 0, 0.25);
 }
-
 
 /* =========================================================
    HERO
@@ -529,6 +757,7 @@ body::after {
     min-height: 100vh;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -542,7 +771,7 @@ body::after {
 }
 
 
-/* Background */
+/* Hero background */
 
 .hero-background {
     position: absolute;
@@ -577,7 +806,9 @@ body::after {
 }
 
 
-/* Grid */
+/* =========================================================
+   HERO GRID
+   ========================================================= */
 
 .hero-grid {
     position: absolute;
@@ -634,7 +865,9 @@ body::after {
 }
 
 
-/* Main Glow */
+/* =========================================================
+   HERO GLOW
+   ========================================================= */
 
 .hero-glow {
     position: absolute;
@@ -683,7 +916,9 @@ body::after {
 }
 
 
-/* Secondary Glow */
+/* =========================================================
+   HERO SECONDARY GLOW
+   ========================================================= */
 
 .hero::after {
     content: "";
@@ -716,7 +951,8 @@ body::after {
 
     0%,
     100% {
-        transform: translate(0, 0);
+        transform:
+            translate(0, 0);
     }
 
     50% {
@@ -736,7 +972,9 @@ body::after {
     z-index: 5;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
 
     max-width: 900px;
@@ -749,6 +987,7 @@ body::after {
 
 .hero-logo {
     display: flex;
+
     justify-content: center;
 
     margin-bottom: 30px;
@@ -764,13 +1003,17 @@ body::after {
 
     filter:
         drop-shadow(
-            0 0 35px rgba(139, 92, 246, 0.55)
+            0 0 35px
+            rgba(139, 92, 246, 0.55)
         );
 
     animation:
         logoFloat 5s ease-in-out infinite,
         logoPulse 4s ease-in-out infinite;
 }
+
+
+/* Logo floating */
 
 @keyframes logoFloat {
 
@@ -786,20 +1029,25 @@ body::after {
     }
 }
 
+
+/* Logo glow */
+
 @keyframes logoPulse {
 
     0%,
     100% {
         filter:
             drop-shadow(
-                0 0 30px rgba(139, 92, 246, 0.45)
+                0 0 30px
+                rgba(139, 92, 246, 0.45)
             );
     }
 
     50% {
         filter:
             drop-shadow(
-                0 0 55px rgba(139, 92, 246, 0.85)
+                0 0 55px
+                rgba(139, 92, 246, 0.85)
             );
     }
 }
@@ -810,9 +1058,11 @@ body::after {
    ========================================================= */
 
 .hero-label {
-    color: var(--nxt-light);
+    color:
+        var(--nxt-light);
 
     font-size: 13px;
+
     font-weight: 800;
 
     letter-spacing: 3px;
@@ -820,7 +1070,8 @@ body::after {
     margin-bottom: 20px;
 
     text-shadow:
-        0 0 15px rgba(167, 139, 250, 0.4);
+        0 0 15px
+        rgba(167, 139, 250, 0.4);
 }
 
 .hero h1 {
@@ -836,15 +1087,20 @@ body::after {
     font-weight: 900;
 
     text-shadow:
-        0 10px 50px rgba(0, 0, 0, 0.35);
+        0 10px 50px
+        rgba(0, 0, 0, 0.35);
 }
 
 .hero h1 span {
-    color: var(--nxt);
+    color:
+        var(--nxt);
 
     text-shadow:
-        0 0 40px rgba(139, 92, 246, 0.45),
-        0 0 80px rgba(139, 92, 246, 0.15);
+        0 0 40px
+        rgba(139, 92, 246, 0.45),
+
+        0 0 80px
+        rgba(139, 92, 246, 0.15);
 }
 
 .hero-text {
@@ -853,10 +1109,25 @@ body::after {
     margin:
         0 auto 35px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     font-size: 18px;
 }
+
+
+/* Hero buttons */
+
+.hero-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
 
 /* =========================================================
    GENERAL SECTIONS
@@ -878,9 +1149,11 @@ body::after {
 }
 
 .section-title p {
-    color: var(--nxt-light);
+    color:
+        var(--nxt-light);
 
     font-size: 12px;
+
     font-weight: 800;
 
     letter-spacing: 3px;
@@ -924,10 +1197,12 @@ body::after {
     overflow: hidden;
 
     display: flex;
+
     align-items: flex-end;
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
     border-radius:
         22px;
@@ -957,15 +1232,23 @@ body::after {
 }
 
 
-/* Image */
+/* =========================================================
+   GAME IMAGE
+   ========================================================= */
 
 .game-image {
     position: absolute;
 
     inset: 0;
 
-    background-size: cover;
-    background-position: center;
+    background-size:
+        cover;
+
+    background-position:
+        center;
+
+    background-repeat:
+        no-repeat;
 
     transition:
         transform 0.7s ease,
@@ -981,7 +1264,9 @@ body::after {
 }
 
 
-/* Overlay */
+/* =========================================================
+   GAME OVERLAY
+   ========================================================= */
 
 .game-overlay {
     position: absolute;
@@ -1012,7 +1297,9 @@ body::after {
 }
 
 
-/* Card Glow */
+/* =========================================================
+   GAME CARD GLOW
+   ========================================================= */
 
 .game-card::before {
     content: "";
@@ -1021,7 +1308,8 @@ body::after {
 
     inset: -2px;
 
-    border-radius: 22px;
+    border-radius:
+        22px;
 
     background:
         linear-gradient(
@@ -1046,7 +1334,9 @@ body::after {
 }
 
 
-/* Content */
+/* =========================================================
+   GAME CONTENT
+   ========================================================= */
 
 .game-content {
     position: relative;
@@ -1132,10 +1422,16 @@ body::after {
     margin:
         0 auto 50px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     font-size: 17px;
 }
+
+
+/* =========================================================
+   COMMUNITY STATS
+   ========================================================= */
 
 .stats {
     display: grid;
@@ -1150,9 +1446,11 @@ body::after {
     padding: 30px;
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
-    border-radius: var(--radius);
+    border-radius:
+        var(--radius);
 
     background:
         rgba(255, 255, 255, 0.03);
@@ -1174,7 +1472,8 @@ body::after {
         rgba(139, 92, 246, 0.4);
 
     box-shadow:
-        0 20px 45px rgba(0, 0, 0, 0.35);
+        0 20px 45px
+        rgba(0, 0, 0, 0.35);
 }
 
 .stat strong {
@@ -1182,16 +1481,19 @@ body::after {
 
     margin-bottom: 5px;
 
-    color: var(--nxt-light);
+    color:
+        var(--nxt-light);
 
     font-size: 34px;
 
     text-shadow:
-        0 0 20px rgba(167, 139, 250, 0.35);
+        0 0 20px
+        rgba(167, 139, 250, 0.35);
 }
 
 .stat span {
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
     font-size: 14px;
 }
@@ -1207,9 +1509,11 @@ body::after {
     text-align: center;
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
-    border-radius: var(--radius);
+    border-radius:
+        var(--radius);
 
     background:
         linear-gradient(
@@ -1239,928 +1543,9 @@ body::after {
 }
 
 .event-box p {
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 }
-
-
-/* =========================================================
-   DISCORD
-   ========================================================= */
-
-.discord-section {
-    position: relative;
-
-    max-width: 1200px;
-
-    margin:
-        80px auto;
-
-    padding:
-        80px 8%;
-
-    overflow: hidden;
-
-    border:
-        1px solid rgba(139, 92, 246, 0.3);
-
-    border-radius: 28px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(139, 92, 246, 0.18),
-            rgba(255, 255, 255, 0.03)
-        );
-
-    backdrop-filter:
-        blur(18px);
-
-    box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.35);
-}
-
-.discord-section::before {
-    content: "";
-
-    position: absolute;
-
-    width: 400px;
-    height: 400px;
-
-    right: -180px;
-    top: -200px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(139, 92, 246, 0.3),
-            transparent 70%
-        );
-
-    filter:
-        blur(20px);
-
-    animation:
-        discordGlow 8s ease-in-out infinite;
-}
-
-@keyframes discordGlow {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.3);
-    }
-}
-
-.discord-section h2 {
-    position: relative;
-
-    max-width: 650px;
-
-    margin-bottom: 20px;
-
-    font-size:
-        clamp(38px, 5vw, 65px);
-
-    line-height: 1;
-
-    letter-spacing: -2px;
-}
-
-.discord-section p:not(.hero-label) {
-    position: relative;
-
-    max-width: 600px;
-
-    margin-bottom: 30px;
-
-    color: var(--text-muted);
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-footer {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    padding:
-        35px 8%;
-
-    border-top:
-        1px solid var(--border);
-
-    color: var(--text-muted);
-
-    font-size: 13px;
-}
-
-
-/* Footer Logo */
-
-.footer-logo {
-    color: var(--text);
-
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   SCROLL ANIMATION
-   ========================================================= */
-
-.scroll-hidden {
-    opacity: 0;
-
-    transform:
-        translateY(40px)
-        scale(0.98);
-
-    transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
-}
-
-.scroll-hidden.visible {
-    opacity: 1;
-
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-
-/* =========================================================
-   MOBILE MENU
-   ========================================================= */
-
-.menu-toggle {
-    display: none;
-
-    width: 42px;
-    height: 42px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 10px;
-
-    background:
-        rgba(255, 255, 255, 0.04);
-
-    cursor: pointer;
-}
-
-.menu-toggle span {
-    display: block;
-
-    width: 20px;
-    height: 2px;
-
-    margin: 4px auto;
-
-    background: white;
-
-    transition:
-        transform 0.3s ease,
-        opacity 0.3s ease;
-}
-
-.mobile-menu {
-    position: fixed;
-
-    top: 76px;
-    left: 0;
-
-    width: 100%;
-
-    padding: 20px;
-
-    background:
-        rgba(5, 5, 8, 0.96);
-
-    backdrop-filter:
-        blur(20px);
-
-    border-bottom:
-        1px solid var(--border);
-
-    transform:
-        translateY(-120%);
-
-    opacity: 0;
-
-    transition:
-        transform 0.35s ease,
-        opacity 0.35s ease;
-
-    z-index: 999;
-}
-
-.mobile-menu.open {
-    transform:
-        translateY(0);
-
-    opacity: 1;
-}
-
-.mobile-menu nav {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 5px;
-}
-
-.mobile-menu nav a {
-    padding: 14px;
-
-    border-radius: 10px;
-
-    color: var(--text-muted);
-
-    font-weight: 600;
-
-    transition:
-        background 0.25s ease,
-        color 0.25s ease;
-}
-
-.mobile-menu nav a:hover {
-    background:
-        rgba(139, 92, 246, 0.1);
-
-    color: white;
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 950px) {
-
-    .navbar {
-        padding:
-            0 5%;
-    }
-
-    .navbar nav {
-        display: none;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .discord-button {
-        margin-left: auto;
-        margin-right: 10px;
-
-        padding:
-            10px 15px;
-
-        font-size: 13px;
-    }
-
-    .game-grid {
-        grid-template-columns:
-            1fr 1fr;
-    }
-}
-
-/* =========================================================
-   TABLET / MOBILE
-   ========================================================= */
-
-@media (max-width: 850px) {
-
-    .hero {
-        padding:
-            130px 6%
-            80px;
-    }
-
-    .hero h1 {
-        font-size:
-            clamp(48px, 14vw, 75px);
-
-        letter-spacing: -3px;
-    }
-
-    .hero-text {
-        font-size: 16px;
-    }
-
-    .section {
-        padding:
-            90px 6%;
-    }
-
-    .stats {
-        grid-template-columns:
-            1fr;
-    }
-
-    .discord-section {
-        margin:
-            50px 6%;
-
-        padding:
-            60px 7%;
-    }
-
-    footer {
-        flex-direction: column;
-
-        gap: 10px;
-
-        text-align: center;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 650px) {
-
-    .game-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-    .game-card {
-        min-height:
-            380px;
-    }
-
-    .hero-logo img {
-        width: 150px;
-        height: 150px;
-    }
-
-    .hero {
-        padding-top: 120px;
-    }
-}
-
-
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 450px) {
-
-    .logo img {
-        width: 38px;
-        height: 38px;
-    }
-
-    .logo-text strong {
-        font-size: 14px;
-    }
-
-    .logo-text small {
-        font-size: 6px;
-    }
-
-    .discord-button {
-        padding:
-            9px 12px;
-
-        font-size: 12px;
-    }
-
-    .hero {
-        min-height: 90vh;
-    }
-
-    .hero-logo img {
-        width: 135px;
-        height: 135px;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-
-        align-items: stretch;
-
-        width: 100%;
-    }
-
-    .button {
-        width: 100%;
-    }
-
-    .card {
-        padding: 25px;
-    }
-}
-
-
-/* =========================================================
-   ADDITIONAL SMOKE LAYERS
-   ========================================================= */
-
-.smoke-1::before,
-.smoke-1::after,
-.smoke-2::before,
-.smoke-2::after,
-.smoke-3::before,
-.smoke-3::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: -20%;
-
-    border-radius: 50%;
-
-    pointer-events: none;
-
-    filter: blur(60px);
-}
-
-
-/* Smoke distortion layer */
-
-.smoke-1::before {
-    background:
-        radial-gradient(
-            ellipse at 60% 40%,
-            rgba(167, 139, 250, 0.22),
-            transparent 55%
-        );
-
-    transform:
-        translate(-80px, 40px)
-        scale(0.8);
-
-    animation:
-        smokeCloud1 17s ease-in-out infinite;
-}
-
-
-.smoke-1::after {
-    background:
-        radial-gradient(
-            ellipse at 40% 60%,
-            rgba(91, 33, 182, 0.18),
-            transparent 60%
-        );
-
-    transform:
-        translate(100px, -30px)
-        scale(1.2);
-
-    animation:
-        smokeCloud2 21s ease-in-out infinite;
-}
-
-
-/* Second smoke cloud */
-
-.smoke-2::before {
-    background:
-        radial-gradient(
-            ellipse at 40% 50%,
-            rgba(139, 92, 246, 0.22),
-            transparent 60%
-        );
-
-    animation:
-        smokeCloud3 23s ease-in-out infinite;
-}
-
-
-.smoke-2::after {
-    background:
-        radial-gradient(
-            ellipse at 70% 40%,
-            rgba(167, 139, 250, 0.15),
-            transparent 60%
-        );
-
-    animation:
-        smokeCloud4 29s ease-in-out infinite;
-}
-
-
-/* Bottom smoke */
-
-.smoke-3::before {
-    background:
-        radial-gradient(
-            ellipse at 40% 60%,
-            rgba(109, 40, 217, 0.22),
-            transparent 60%
-        );
-
-    animation:
-        smokeCloud5 27s ease-in-out infinite;
-}
-
-
-.smoke-3::after {
-    background:
-        radial-gradient(
-            ellipse at 65% 35%,
-            rgba(139, 92, 246, 0.18),
-            transparent 60%
-        );
-
-    animation:
-        smokeCloud6 31s ease-in-out infinite;
-}
-
-
-/* =========================================================
-   SMOKE MOVEMENT
-   ========================================================= */
-
-@keyframes smokeDrift1 {
-
-    0% {
-        transform:
-            translate3d(0, 0, 0)
-            rotate(-12deg)
-            scale(1);
-    }
-
-    25% {
-        transform:
-            translate3d(100px, -30px, 0)
-            rotate(-7deg)
-            scale(1.08);
-    }
-
-    50% {
-        transform:
-            translate3d(220px, 80px, 0)
-            rotate(4deg)
-            scale(1.18);
-    }
-
-    75% {
-        transform:
-            translate3d(120px, 140px, 0)
-            rotate(-4deg)
-            scale(1.08);
-    }
-
-    100% {
-        transform:
-            translate3d(0, 0, 0)
-            rotate(-12deg)
-            scale(1);
-    }
-}
-
-
-@keyframes smokeDrift2 {
-
-    0% {
-        transform:
-            translate3d(0, 0, 0)
-            rotate(18deg)
-            scale(1.1);
-    }
-
-    30% {
-        transform:
-            translate3d(-120px, 80px, 0)
-            rotate(10deg)
-            scale(1.18);
-    }
-
-    60% {
-        transform:
-            translate3d(-260px, -60px, 0)
-            rotate(-2deg)
-            scale(1.3);
-    }
-
-    100% {
-        transform:
-            translate3d(0, 0, 0)
-            rotate(18deg)
-            scale(1.1);
-    }
-}
-
-
-@keyframes smokeDrift3 {
-
-    0% {
-        transform:
-            translate3d(0, 0, 0)
-            scale(1);
-    }
-
-    30% {
-        transform:
-            translate3d(-120px, -80px, 0)
-            scale(1.12);
-    }
-
-    60% {
-        transform:
-            translate3d(100px, -180px, 0)
-            scale(1.28);
-    }
-
-    100% {
-        transform:
-            translate3d(0, 0, 0)
-            scale(1);
-    }
-}
-
-
-/* =========================================================
-   SMOKE CLOUD MOTION
-   ========================================================= */
-
-@keyframes smokeCloud1 {
-
-    0%,
-    100% {
-        transform:
-            translate(-80px, 40px)
-            scale(0.8)
-            rotate(0deg);
-
-        opacity: 0.6;
-    }
-
-    50% {
-        transform:
-            translate(120px, -50px)
-            scale(1.25)
-            rotate(18deg);
-
-        opacity: 1;
-    }
-}
-
-
-@keyframes smokeCloud2 {
-
-    0%,
-    100% {
-        transform:
-            translate(100px, -30px)
-            scale(1.2)
-            rotate(0deg);
-
-        opacity: 0.5;
-    }
-
-    50% {
-        transform:
-            translate(-80px, 90px)
-            scale(0.9)
-            rotate(-15deg);
-
-        opacity: 0.9;
-    }
-}
-
-
-@keyframes smokeCloud3 {
-
-    0%,
-    100% {
-        transform:
-            translate(-60px, 20px)
-            scale(0.9);
-    }
-
-    50% {
-        transform:
-            translate(100px, -80px)
-            scale(1.3);
-    }
-}
-
-
-@keyframes smokeCloud4 {
-
-    0%,
-    100% {
-        transform:
-            translate(80px, -40px)
-            scale(1.1);
-    }
-
-    50% {
-        transform:
-            translate(-120px, 70px)
-            scale(0.85);
-    }
-}
-
-
-@keyframes smokeCloud5 {
-
-    0%,
-    100% {
-        transform:
-            translate(-100px, 50px)
-            scale(0.9);
-    }
-
-    50% {
-        transform:
-            translate(140px, -100px)
-            scale(1.25);
-    }
-}
-
-
-@keyframes smokeCloud6 {
-
-    0%,
-    100% {
-        transform:
-            translate(100px, -50px)
-            scale(1.15);
-    }
-
-    50% {
-        transform:
-            translate(-100px, 80px)
-            scale(0.85);
-    }
-}
-
-
-/* =========================================================
-   BACKGROUND GLOWS
-   ========================================================= */
-
-.background-glow {
-    position: absolute;
-
-    width: 350px;
-    height: 350px;
-
-    border-radius: 50%;
-
-    filter: blur(100px);
-
-    opacity: 0.12;
-
-    will-change: transform;
-}
-
-
-.glow-1 {
-    top: 10%;
-    left: 45%;
-
-    background:
-        rgba(139, 92, 246, 0.9);
-
-    animation:
-        glowFloat1 12s ease-in-out infinite;
-}
-
-
-.glow-2 {
-    top: 55%;
-    left: 10%;
-
-    background:
-        rgba(109, 40, 217, 0.8);
-
-    animation:
-        glowFloat2 16s ease-in-out infinite;
-}
-
-
-.glow-3 {
-    top: 70%;
-    right: 5%;
-
-    background:
-        rgba(167, 139, 250, 0.7);
-
-    animation:
-        glowFloat3 14s ease-in-out infinite;
-}
-
-
-/* =========================================================
-   GLOW ANIMATIONS
-   ========================================================= */
-
-@keyframes glowFloat1 {
-
-    0%,
-    100% {
-        transform:
-            translate(0, 0)
-            scale(1);
-    }
-
-    50% {
-        transform:
-            translate(-100px, 80px)
-            scale(1.25);
-    }
-}
-
-
-@keyframes glowFloat2 {
-
-    0%,
-    100% {
-        transform:
-            translate(0, 0)
-            scale(1);
-    }
-
-    50% {
-        transform:
-            translate(120px, -80px)
-            scale(1.2);
-    }
-}
-
-
-@keyframes glowFloat3 {
-
-    0%,
-    100% {
-        transform:
-            translate(0, 0)
-            scale(1);
-    }
-
-    50% {
-        transform:
-            translate(-100px, -120px)
-            scale(1.3);
-    }
-}
-
-
-/* =========================================================
-   PARTICLES
-   ========================================================= */
-
-.particles {
-    position: absolute;
-
-    inset: 0;
-
-    overflow: hidden;
-}
-
-
-@keyframes particleFloat {
-
-    0% {
-        transform:
-            translateY(110vh)
-            scale(0.5);
-
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 0.7;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    90% {
-        opacity: 0.5;
-    }
-
-    100% {
-        transform:
-            translateY(-10vh)
-            scale(1);
-
-        opacity: 0;
-    }
-}
-
 
 /* =========================================================
    MOBILE PERFORMANCE
@@ -2206,15 +1591,188 @@ footer {
 
 }
 
-/* Hero Buttons */
 
-.hero-buttons {
-    display: flex;
+/* =========================================================
+   EXTRA MOBILE FIXES
+   ========================================================= */
 
-    justify-content: center;
+@media (max-width: 450px) {
 
-    gap: 14px;
+    .navbar {
+        height: 70px;
 
-    flex-wrap: wrap;
+        padding:
+            0 4%;
+    }
+
+    .mobile-menu {
+        top: 70px;
+    }
+
+    .logo {
+        gap: 7px;
+    }
+
+    .logo img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .logo-text strong {
+        font-size: 13px;
+    }
+
+    .logo-text small {
+        font-size: 6px;
+        letter-spacing: 1.5px;
+    }
+
+    .discord-button {
+        padding:
+            9px 12px;
+
+        font-size: 12px;
+    }
+
+    .hero {
+        min-height: 90vh;
+
+        padding:
+            110px 5%
+            70px;
+    }
+
+    .hero-logo {
+        margin-bottom: 20px;
+    }
+
+    .hero-logo img {
+        width: 135px;
+        height: 135px;
+    }
+
+    .hero-label {
+        font-size: 11px;
+
+        letter-spacing: 2px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        width: 100%;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .section {
+        padding:
+            75px 5%;
+    }
+
+    .section-title {
+        margin-bottom: 35px;
+    }
+
+    .section-title h2 {
+        font-size: 38px;
+    }
+
+    .game-card {
+        min-height: 360px;
+
+        border-radius: 18px;
+    }
+
+    .game-content {
+        padding: 24px;
+    }
+
+    .game-content h3 {
+        font-size: 24px;
+    }
+
+    .discord-section {
+        margin:
+            40px 5%;
+
+        padding:
+            50px 7%;
+
+        border-radius: 22px;
+    }
+
+    .discord-section h2 {
+        font-size: 38px;
+    }
+
+    footer {
+        padding:
+            30px 5%;
+
+        font-size: 12px;
+    }
+
 }
 
+
+/* =========================================================
+   TOUCH DEVICES
+   ========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .game-card:hover {
+        transform: none;
+
+        box-shadow: none;
+    }
+
+    .game-card:hover .game-image {
+        transform: none;
+    }
+
+    .button.primary:hover,
+    .discord-button:hover,
+    .button.secondary:hover {
+        transform: none;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline:
+        2px solid var(--nxt-light);
+
+    outline-offset: 4px;
+}
+
+
+/* =========================================================
+   END OF MAIN STYLESHEET
+   ========================================================= */
