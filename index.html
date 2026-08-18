@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="[NXT] Next Gen – Gaming, Community, Events und gemeinsame Abenteuer."
+    >
+
+    <meta
+        name="theme-color"
+        content="#07070b"
+    >
+
+    <title>[NXT] Next Gen</title>
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ANIMIERTER HINTERGRUND
+     ===================================================== -->
+
+<div
+    class="animated-background"
+    aria-hidden="true"
+>
+
+    <!-- Feines Grid -->
+
+    <div class="background-grid"></div>
+
+
+    <!-- Bewegende Glows -->
+
+    <div class="background-glow glow-1"></div>
+
+    <div class="background-glow glow-2"></div>
+
+    <div class="background-glow glow-3"></div>
+
+
+    <!-- Partikel werden per JavaScript erzeugt -->
+
+    <div
+        class="background-particles"
+        id="backgroundParticles"
+    ></div>
+
+</div>
+
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<header class="navbar">
+
+    <!-- Logo -->
+
+    <a
+        href="#home"
+        class="logo"
+    >
+
+        <img
+            src="images/nxt-logo.png"
+            alt="[NXT] Next Gen Logo"
+        >
+
+        <div class="logo-text">
+
+            <strong>[NXT] NEXT GEN</strong>
+
+            <small>
+                GAMING COMMUNITY
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <!-- Desktop Navigation -->
+
+    <nav>
+
+        <a href="#home">
+            Start
+        </a>
+
+        <a href="#games">
+            Games
+        </a>
+
+        <a href="#community">
+            Community
+        </a>
+
+        <a href="#events">
+            Events
+        </a>
+
+    </nav>
+
+
+    <!-- Discord Button -->
+
+    <a
+        href="https://discord.gg/SFdBgGRGQQ"
+        class="discord-button"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Discord
+    </a>
+
+
+    <!-- Mobile Menu Button -->
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Menü öffnen"
+        aria-expanded="false"
+        type="button"
+    >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MOBILE NAVIGATION
+     ===================================================== -->
+
+<div
+    class="mobile-menu"
+    id="mobileMenu"
+>
+
+    <nav>
+
+        <a href="#home">
+            Start
+        </a>
+
+        <a href="#games">
+            Games
+        </a>
+
+        <a href="#community">
+            Community
+        </a>
+
+        <a href="#events">
+            Events
+        </a>
+
+        <a
+            href="https://discord.gg/SFdBgGRGQQ"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Discord
+        </a>
+
+    </nav>
+
+</div>
+
+
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
+<section
+    id="home"
+    class="hero"
+>
+
+    <!-- Hero Background -->
+
+    <div class="hero-background"></div>
+
+    <div class="hero-grid"></div>
+
+    <div class="hero-glow"></div>
+
+
+    <!-- Content -->
+
+    <div class="hero-content">
+
+
+        <!-- Logo -->
+
+        <div class="hero-logo">
+
+            <img
+                src="images/nxt-logo.png"
+                alt="[NXT] Next Gen"
+            >
+
+        </div>
+
+
+        <!-- Label -->
+
+        <div class="hero-label">
+
+            [NXT] NEXT GEN
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1>
+
+            Gemeinsam.
+            <span>
+                Zocken.
+            </span>
+
+        </h1>
+
+
+        <!-- Text -->
+
+        <p class="hero-text">
+
+            Eine Gaming-Community für alle,
+            die gemeinsam spielen, neue Games
+            entdecken und einfach eine gute Zeit
+            haben wollen.
+
+        </p>
+
+
+        <!-- Buttons -->
+
+        <div class="hero-buttons">
+
+            <a
+                href="#games"
+                class="button primary"
+            >
+                Games entdecken
+            </a>
+
+
+            <a
+                href="#community"
+                class="button secondary"
+            >
+                Community
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     GAMES
+     ===================================================== -->
+
+<section
+    id="games"
+    class="section games-section"
+>
+
+    <div class="section-title">
+
+        <p>
+            UNSERE SPIELE
+        </p>
+
+        <h2>
+            Games
+        </h2>
+
+    </div>
+
+
+    <div class="game-grid">
+
+
+        <!-- PALMON SURVIVAL -->
+
+        <article class="game-card">
+
+            <div
+                class="game-image"
+                style="
+                    background-image:
+                    url('images/palmon.jpg');
+                "
+            ></div>
+
+            <div class="game-overlay"></div>
+
+
+            <div class="game-content">
+
+                <span class="game-category">
+                    SURVIVAL
+                </span>
+
+                <h3>
+                    Palmon Survival
+                </h3>
+
+                <p>
+                    Gemeinsam sammeln, bauen,
+                    kämpfen und die Welt erkunden.
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- LEAGUE OF LEGENDS -->
+
+        <article class="game-card">
+
+            <div
+                class="game-image"
+                style="
+                    background-image:
+                    url('images/league.jpg');
+                "
+            ></div>
+
+            <div class="game-overlay"></div>
+
+
+            <div class="game-content">
+
+                <span class="game-category">
+                    MOBA
+                </span>
+
+                <h3>
+                    League of Legends
+                </h3>
+
+                <p>
+                    Gemeinsam auf die Rift,
+                    Teams bilden und den Sieg holen.
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- FORZA HORIZON -->
+
+        <article class="game-card">
+
+            <div
+                class="game-image"
+                style="
+                    background-image:
+                    url('images/forza.jpg');
+                "
+            ></div>
+
+            <div class="game-overlay"></div>
+
+
+            <div class="game-content">
+
+                <span class="game-category">
+                    RACING
+                </span>
+
+                <h3>
+                    Forza Horizon
+                </h3>
+
+                <p>
+                    Rennen fahren, Autos sammeln
+                    und gemeinsam die Straßen unsicher machen.
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- DIABLO -->
+
+        <article class="game-card">
+
+            <div
+                class="game-image"
+                style="
+                    background-image:
+                    url('images/diablo.jpg');
+                "
+            ></div>
+
+            <div class="game-overlay"></div>
+
+
+            <div class="game-content">
+
+                <span class="game-category">
+                    ACTION RPG
+                </span>
+
+                <h3>
+                    Diablo
+                </h3>
+
+                <p>
+                    Dämonen bekämpfen, Builds bauen
+                    und gemeinsam durch die Hölle ziehen.
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- PALWORLD -->
+
+        <article class="game-card">
+
+            <div
+                class="game-image"
+                style="
+                    background-image:
+                    url('images/palworld.jpg');
+                "
+            ></div>
+
+            <div class="game-overlay"></div>
+
+
+            <div class="game-content">
+
+                <span class="game-category">
+                    SURVIVAL
+                </span>
+
+                <h3>
+                    Palworld
+                </h3>
+
+                <p>
+                    Erkunden, bauen, kämpfen
+                    und gemeinsam eine eigene Welt erschaffen.
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- COMMUNITY GAMES -->
+
+        <article class="game-card">
+
+            <div
+                class="game-image"
+                style="
+                    background-image:
+                    url('images/community.jpg');
+                "
+            ></div>
+
+            <div class="game-overlay"></div>
+
+
+            <div class="game-content">
+
+                <span class="game-category">
+                    COMMUNITY
+                </span>
+
+                <h3>
+                    Community Games
+                </h3>
+
+                <p>
+                    Gemeinsam neue Spiele ausprobieren,
+                    Events starten und einfach Spaß haben.
+                </p>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     COMMUNITY
+     ===================================================== -->
+
+<section
+    id="community"
+    class="section community"
+>
+
+    <div class="section-title">
+
+        <p>
+            [NXT] NEXT GEN
+        </p>
+
+        <h2>
+            Unsere Community
+        </h2>
+
+    </div>
+
+
+    <p class="community-text">
+
+        Bei [NXT] Next Gen geht es nicht nur ums Zocken.
+        Wir wollen eine Community schaffen, in der man
+        gemeinsam lachen, spielen, quatschen und neue
+        Leute kennenlernen kann.
+
+    </p>
+
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <strong>
+                24/7
+            </strong>
+
+            <span>
+                Community
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong>
+                6+
+            </strong>
+
+            <span>
+                Games
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong>
+                ∞
+            </strong>
+
+            <span>
+                Möglichkeiten
+            </span>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     EVENTS
+     ===================================================== -->
+
+<section
+    id="events"
+    class="section"
+>
+
+    <div class="section-title">
+
+        <p>
+            GEMEINSAM ERLEBEN
+        </p>
+
+        <h2>
+            Events
+        </h2>
+
+    </div>
+
+
+    <div class="event-box">
+
+        <h3>
+            Community Events
+        </h3>
+
+        <p>
+
+            Gemeinsame Events, Challenges,
+            Spieleabende und besondere Aktionen
+            für die gesamte [NXT]-Community.
+
+        </p>
+
+
+        <br>
+
+
+        <a
+            href="https://discord.gg/SFdBgGRGQQ"
+            class="button primary"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Events im Discord
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DISCORD
+     ===================================================== -->
+
+<section
+    id="discord"
+    class="discord-section"
+>
+
+    <p class="hero-label">
+
+        [NXT] NEXT GEN
+
+    </p>
+
+
+    <h2>
+
+        Komm zu uns
+        auf Discord.
+
+    </h2>
+
+
+    <p>
+
+        Egal ob du bereits regelmäßig spielst
+        oder einfach neue Leute kennenlernen möchtest –
+        bei [NXT] Next Gen bist du willkommen.
+
+    </p>
+
+
+    <a
+        href="https://discord.gg/SFdBgGRGQQ"
+        class="discord-button"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Discord beitreten
+    </a>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    <div class="footer-logo">
+
+        [NXT] Next Gen
+
+    </div>
+
+
+    <div>
+
+        © 2026 [NXT] Next Gen
+
+    </div>
+
+
+    <div>
+
+        Gaming • Community • Together
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
