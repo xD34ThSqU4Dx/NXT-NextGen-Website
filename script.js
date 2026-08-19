@@ -501,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const response =
     await fetch(
-        "https://lifestyle-randy-bio-exclusive.trycloudflare.com/api/discord/members",
+        "https://politicians-notes-june-lock.trycloudflare.com/api/discord/members",
         {
             method: "GET",
             cache: "no-store"
