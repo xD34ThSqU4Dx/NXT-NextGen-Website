@@ -485,420 +485,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                     }
 
-                                       menuToggle.classList.remove(
-            "active"
-        );
-
-
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-
-        menuToggle.setAttribute(
-            "aria-label",
-            "Menü öffnen"
-        );
-
-    }
-
-
-    function openMobileMenu() {
-
-        if (!mobileMenu || !menuToggle) {
-            return;
-        }
-
-
-        mobileMenu.classList.add(
-            "active"
-        );
-
-        mobileMenu.classList.add(
-            "open"
-        );
-
-        menuToggle.classList.add(
-            "active"
-        );
-
-
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-
-        menuToggle.setAttribute(
-            "aria-label",
-            "Menü schließen"
-        );
-
-    }
-
-
-    if (menuToggle && mobileMenu) {
-
-        menuToggle.addEventListener(
-            "click",
-            (event) => {
-
-                event.stopPropagation();
-
-
-                const isOpen =
-                    mobileMenu.classList.contains(
-                        "active"
-                    );
-
-
-                if (isOpen) {
-
-                    closeMobileMenu();
-
-                } else {
-
-                    openMobileMenu();
-
-                }
-
-            }
-        );
-
-
-        /* ---------------------------------------------
-           Mobile Links
-           --------------------------------------------- */
-
-        mobileLinks.forEach(
-            (link) => {
-
-                link.addEventListener(
-                    "click",
-                    () => {
-
-                        closeMobileMenu();
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* ---------------------------------------------
-           Klick außerhalb des Menüs
-           --------------------------------------------- */
-
-        document.addEventListener(
-            "click",
-            (event) => {
-
-                if (
-                    !mobileMenu.contains(
-                        event.target
-                    ) &&
-                    !menuToggle.contains(
-                        event.target
-                    )
-                ) {
-
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-
-        /* ---------------------------------------------
-           ESC-Taste
-           --------------------------------------------- */
-
-        document.addEventListener(
-            "keydown",
-            (event) => {
-
-                if (
-                    event.key === "Escape"
-                ) {
-
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-
-        /* ---------------------------------------------
-           Desktop-Wechsel
-           --------------------------------------------- */
-
-        window.addEventListener(
-            "resize",
-            () => {
-
-                if (
-                    window.innerWidth > 850
-                ) {
-
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       SCROLL ANIMATIONS
-       ===================================================== */
-
-    const animatedElements =
-        document.querySelectorAll(
-            ".section-title, " +
-            ".game-card, " +
-            ".stat, " +
-            ".event-box, " +
-            ".discord-section"
-        );
-
-
-    animatedElements.forEach(
-        (element) => {
-
-            element.classList.add(
-                "scroll-hidden"
-            );
-
-        }
-    );
-
-
-    if (
-        "IntersectionObserver" in window
-    ) {
-
-        const observer =
-            new IntersectionObserver(
-                (entries, observer) => {
-
-                    entries.forEach(
-                        (entry) => {
-
-                            if (
-                                !entry.isIntersecting
-                            ) {
-
-                                return;
-
-                            }
-
-
-                            entry.target.classList.add(
-                                "visible"
-                            );
-
-
-                            observer.unobserve(
-                                entry.target
-                            );
-
-                        }
-                    );
-
-                },
-                {
-                    threshold: 0.12,
-
-                    rootMargin:
-                        "0px 0px -50px 0px"
-                }
-            );
-
-
-        animatedElements.forEach(
-            (element) => {
-
-                observer.observe(
-                    element
-                );
-
-            }
-        );
-
-    } else {
-
-        animatedElements.forEach(
-            (element) => {
-
-                element.classList.add(
-                    "visible"
-                );
-
-            }
-        );
-
-    }
-
-
-
-    /* =====================================================
-       SMOOTH NAVIGATION
-       ===================================================== */
-
-    const navigationLinks =
-        document.querySelectorAll(
-            'a[href^="#"]'
-        );
-
-
-    navigationLinks.forEach(
-        (link) => {
-
-            link.addEventListener(
-                "click",
-                (event) => {
-
-                    const targetId =
-                        link.getAttribute(
-                            "href"
-                        );
-
-
-                    if (
-                        !targetId ||
-                        targetId === "#"
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    const target =
-                        document.querySelector(
-                            targetId
-                        );
-
-
-                    if (!target) {
-
-                        return;
-
-                    }
-
-
-                    event.preventDefault();
-
-
-                    closeMobileMenu();
-
-
-                    const navbarHeight =
-                        navbar
-                            ? navbar.offsetHeight
-                            : 0;
-
-
-                    const targetPosition =
-                        target
-                            .getBoundingClientRect()
-                            .top
-                        +
-                        window.scrollY
-                        -
-                        navbarHeight
-                        -
-                        10;
-
-
-                    window.scrollTo({
-
-                        top:
-                            targetPosition,
-
-                        behavior:
-                            "smooth"
-
-                    });
-
-                }
-            );
-
-        }
-    );
-
-
-
-    /* =====================================================
-       ACTIVE NAVIGATION
-       ===================================================== */
-
-    const sections =
-        document.querySelectorAll(
-            "section[id]"
-        );
-
-
-    const navLinks =
-        document.querySelectorAll(
-            ".navbar nav a"
-        );
-
-
-    if (
-        "IntersectionObserver" in window &&
-        sections.length &&
-        navLinks.length
-    ) {
-
-        const sectionObserver =
-            new IntersectionObserver(
-                (entries) => {
-
-                    entries.forEach(
-                        (entry) => {
-
-                            if (
-                                !entry.isIntersecting
-                            ) {
-
-                                return;
-
-                            }
-
-
-                            const id =
-                                entry.target.id;
-
-
-                            navLinks.forEach(
-                                (link) => {
-
-                                    link.classList.remove(
-                                        "active"
-                                    );
-
-
-                                    if (
-                                        link.getAttribute(
-                                            "href"
-                                        ) ===
-                                        `#${id}`
-                                    ) {
-
-                                        link.classList.add(
-                                            "active"
-                                        );
-
-                                    }
-
                                 }
                             );
 
@@ -926,7 +512,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
-
 
 
     /* =====================================================
@@ -976,7 +561,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     );
-
 
 
     /* =====================================================
@@ -1029,7 +613,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
     /* =====================================================
        BUTTON RIPPLE EFFECT
        ===================================================== */
@@ -1045,4 +628,367 @@ document.addEventListener("DOMContentLoaded", () => {
         (button) => {
 
             button.addEventListener(
-                "
+                "click",
+                (event) => {
+
+                    const href =
+                        button.getAttribute(
+                            "href"
+                        );
+
+
+                    /*
+                     * Interne Links bekommen
+                     * keinen Ripple
+                     */
+
+                    if (
+                        href &&
+                        href.startsWith("#") &&
+                        href !== "#"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const ripple =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    ripple.classList.add(
+                        "button-ripple"
+                    );
+
+
+                    const rect =
+                        button.getBoundingClientRect();
+
+
+                    ripple.style.left =
+                        `${
+                            event.clientX -
+                            rect.left
+                        }px`;
+
+
+                    ripple.style.top =
+                        `${
+                            event.clientY -
+                            rect.top
+                        }px`;
+
+
+                    button.appendChild(
+                        ripple
+                    );
+
+
+                    setTimeout(
+                        () => {
+
+                            ripple.remove();
+
+                        },
+                        600
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       DISCORD MITGLIEDERZAHL
+       ===================================================== */
+
+    async function loadDiscordMembers() {
+
+        if (
+            !memberCountElements.length
+        ) {
+
+            console.log(
+                "[NXT] Kein Discord-Mitglieder-Element gefunden."
+            );
+
+            return;
+
+        }
+
+
+        const API_URL =
+            "https://fifth-verification-exams-walks.trycloudflare.com/api/discord/members";
+
+
+        try {
+
+            console.log(
+                "[NXT] Lade Discord Mitglieder..."
+            );
+
+
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "[NXT] API Antwort:",
+                data
+            );
+
+
+            const memberCount =
+                Number(
+                    data.members
+                );
+
+
+            if (
+                !Number.isFinite(
+                    memberCount
+                )
+            ) {
+
+                throw new Error(
+                    "Die API hat keine gültige Mitgliederzahl geliefert."
+                );
+
+            }
+
+
+            memberCountElements.forEach(
+                (element) => {
+
+                    element.textContent =
+                        memberCount.toLocaleString(
+                            "de-DE"
+                        );
+
+                }
+            );
+
+
+            console.log(
+                `[NXT] Discord Mitglieder geladen: ${memberCount}`
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "[NXT] Discord Mitglieder konnten nicht geladen werden:",
+                error
+            );
+
+
+            memberCountElements.forEach(
+                (element) => {
+
+                    element.textContent =
+                        "—";
+
+                }
+            );
+
+        }
+
+    }
+
+
+    loadDiscordMembers();
+
+
+    /* =====================================================
+       HINTERGRUND-PARTIKEL
+       ===================================================== */
+
+    function createBackgroundParticles() {
+
+        if (!backgroundParticles) {
+
+            return;
+
+        }
+
+
+        /*
+         * Nicht mehrfach erzeugen
+         */
+
+        if (
+            backgroundParticles.children.length > 0
+        ) {
+
+            return;
+
+        }
+
+
+        const particleCount =
+            window.innerWidth < 700
+                ? 18
+                : 35;
+
+
+        for (
+            let i = 0;
+            i < particleCount;
+            i++
+        ) {
+
+            const particle =
+                document.createElement(
+                    "span"
+                );
+
+
+            particle.classList.add(
+                "particle"
+            );
+
+
+            particle.style.left =
+                `${Math.random() * 100}%`;
+
+
+            particle.style.top =
+                `${Math.random() * 100}%`;
+
+
+            particle.style.animationDelay =
+                `${Math.random() * 6}s`;
+
+
+            particle.style.animationDuration =
+                `${4 + Math.random() * 6}s`;
+
+
+            const size =
+                1 +
+                Math.random() * 3;
+
+
+            particle.style.width =
+                `${size}px`;
+
+
+            particle.style.height =
+                `${size}px`;
+
+
+            backgroundParticles.appendChild(
+                particle
+            );
+
+        }
+
+
+        console.log(
+            `[NXT] ${particleCount} Hintergrund-Partikel erstellt`
+        );
+
+    }
+
+
+    createBackgroundParticles();
+
+
+    /* =====================================================
+       CURRENT YEAR
+       ===================================================== */
+
+    const yearElements =
+        document.querySelectorAll(
+            "[data-year]"
+        );
+
+
+    yearElements.forEach(
+        (element) => {
+
+            element.textContent =
+                new Date()
+                    .getFullYear();
+
+        }
+    );
+
+
+    /* =====================================================
+       REDUCE MOTION
+       ===================================================== */
+
+    const prefersReducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+
+    function handleReducedMotion() {
+
+        if (
+            !prefersReducedMotion.matches
+        ) {
+
+            return;
+
+        }
+
+
+        document.documentElement.style
+            .scrollBehavior =
+            "auto";
+
+
+        document
+            .querySelectorAll("*")
+            .forEach(
+                (element) => {
+
+                    element.style.animationDuration =
+                        "0.01ms";
+
+                    element.style.animationIterationCount =
+                        "1";
+
+                    element.style.transitionDuration =
+                        "0.01ms";
+
+                }
+            );
+
+    }
+
+
+    handleReducedMotion();
+
+
+    /* =====================================================
+       FINISHED
+       ===================================================== */
+                          
