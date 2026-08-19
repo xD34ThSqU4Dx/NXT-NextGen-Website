@@ -500,13 +500,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             const response =
-                await fetch(
-                    "http://5.45.105.40:8080/api/discord/members",
-                    {
-                        method: "GET",
-                        cache: "no-store"
-                    }
-                );
+    await fetch(
+        "https://lifestyle-randy-bio-exclusive.trycloudflare.com/api/discord/members",
+        {
+            method: "GET",
+            cache: "no-store"
+        }
+    );
 
 
             if (!response.ok) {
