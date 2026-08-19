@@ -664,7 +664,16 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
        DISCORD MITGLIEDERZAHL
        ===================================================== */
+console.log(
+    "[NXT] Mitglieder-Elemente:",
+    memberCountElements.length
+);
 
+console.log(
+    "[NXT] API URL:",
+    apiUrl
+);
+   
     async function loadDiscordMembers() {
 
         if (
