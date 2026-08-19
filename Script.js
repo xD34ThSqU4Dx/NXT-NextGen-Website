@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const heroGlow =
         document.querySelector(".hero-glow");
 
+   const backgroundParticles =
+    document.querySelector("#backgroundParticles");
+
 
     /* =====================================================
        NAVBAR SCROLL EFFECT
@@ -215,7 +218,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+/* =====================================================
+   BACKGROUND PARTICLES
+   ===================================================== */
 
+if (backgroundParticles) {
+
+    for (let i = 0; i < 45; i++) {
+
+        const particle =
+            document.createElement("span");
+
+        particle.classList.add("particle");
+
+        particle.style.left =
+            `${Math.random() * 100}%`;
+
+        particle.style.animationDuration =
+            `${8 + Math.random() * 14}s`;
+
+        particle.style.animationDelay =
+            `${Math.random() * 12}s`;
+
+        const size =
+            1 + Math.random() * 3;
+
+        particle.style.width =
+            `${size}px`;
+
+        particle.style.height =
+            `${size}px`;
+
+        backgroundParticles.appendChild(
+            particle
+        );
+
+    }
+
+    console.log(
+        "[NXT] Hintergrund-Partikel geladen"
+    );
+
+}
+   
     /* =====================================================
        SCROLL ANIMATIONS
        ===================================================== */
