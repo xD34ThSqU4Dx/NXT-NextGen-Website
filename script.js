@@ -26,15 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
             ".mobile-menu a"
         );
 
-    const backgroundParticles =
-        document.querySelector(
-            "#backgroundParticles"
-        );
-
     const memberCountElements =
         document.querySelectorAll(
             "#discordMemberCount, [data-discord-members]"
         );
+
+    const heroGlow =
+        document.querySelector(".hero-glow");
 
 
     /* =====================================================
@@ -63,13 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
     window.addEventListener(
         "scroll",
         updateNavbar,
-        {
-            passive: true
-        }
+        { passive: true }
     );
 
     updateNavbar();
@@ -85,17 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        mobileMenu.classList.remove(
-            "active"
-        );
+        mobileMenu.classList.remove("active");
+        mobileMenu.classList.remove("open");
 
-        mobileMenu.classList.remove(
-            "open"
-        );
-
-        menuToggle.classList.remove(
-            "active"
-        );
+        menuToggle.classList.remove("active");
 
         menuToggle.setAttribute(
             "aria-expanded",
@@ -116,17 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        mobileMenu.classList.add(
-            "active"
-        );
+        mobileMenu.classList.add("active");
+        mobileMenu.classList.add("open");
 
-        mobileMenu.classList.add(
-            "open"
-        );
-
-        menuToggle.classList.add(
-            "active"
-        );
+        menuToggle.classList.add("active");
 
         menuToggle.setAttribute(
             "aria-expanded",
@@ -168,10 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /* ---------------------------------------------
-           Mobile Links
-           --------------------------------------------- */
-
         mobileLinks.forEach(
             (link) => {
 
@@ -187,10 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
-
-        /* ---------------------------------------------
-           Klick außerhalb
-           --------------------------------------------- */
 
         document.addEventListener(
             "click",
@@ -213,10 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /* ---------------------------------------------
-           ESC-Taste
-           --------------------------------------------- */
-
         document.addEventListener(
             "keydown",
             (event) => {
@@ -230,10 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
-
-        /* ---------------------------------------------
-           Desktop-Wechsel
-           --------------------------------------------- */
 
         window.addEventListener(
             "resize",
@@ -276,11 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    if (
-        "IntersectionObserver" in window
-    ) {
+    if ("IntersectionObserver" in window) {
 
-        const observer =
+        const animationObserver =
             new IntersectionObserver(
                 (entries, observer) => {
 
@@ -319,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
         animatedElements.forEach(
             (element) => {
 
-                observer.observe(
+                animationObserver.observe(
                     element
                 );
 
@@ -363,6 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             "href"
                         );
 
+
                     if (
                         !targetId ||
                         targetId === "#"
@@ -372,10 +336,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     }
 
+
                     const target =
                         document.querySelector(
                             targetId
                         );
+
 
                     if (!target) {
 
@@ -383,7 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     }
 
+
                     event.preventDefault();
+
 
                     closeMobileMenu();
 
@@ -431,6 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(
             "section[id]"
         );
+
 
     const navLinks =
         document.querySelectorAll(
@@ -564,14 +533,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       HERO PARALLAX EFFECT
+       HERO PARALLAX
        ===================================================== */
-
-    const heroGlow =
-        document.querySelector(
-            ".hero-glow"
-        );
-
 
     if (heroGlow) {
 
@@ -636,11 +599,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             "href"
                         );
 
-
-                    /*
-                     * Interne Links bekommen
-                     * keinen Ripple
-                     */
 
                     if (
                         href &&
@@ -722,7 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        const API_URL =
+        const apiUrl =
             "https://fifth-verification-exams-walks.trycloudflare.com/api/discord/members";
 
 
@@ -735,10 +693,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const response =
                 await fetch(
-                    API_URL,
+                    apiUrl,
                     {
                         method: "GET",
-                        cache: "no-store"
+
+                        cache: "no-store",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
                     }
                 );
 
@@ -756,16 +720,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
 
-            console.log(
-                "[NXT] API Antwort:",
-                data
-            );
-
-
             const memberCount =
-                Number(
-                    data.members
-                );
+                Number(data.members);
 
 
             if (
@@ -775,7 +731,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
 
                 throw new Error(
-                    "Die API hat keine gültige Mitgliederzahl geliefert."
+                    "Ungültige Mitgliederzahl von der API."
                 );
 
             }
@@ -801,7 +757,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
 
             console.error(
-                "[NXT] Discord Mitglieder konnten nicht geladen werden:",
+                "[NXT] Fehler beim Laden der Discord Mitglieder:",
                 error
             );
 
@@ -821,101 +777,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     loadDiscordMembers();
-
-
-    /* =====================================================
-       HINTERGRUND-PARTIKEL
-       ===================================================== */
-
-    function createBackgroundParticles() {
-
-        if (!backgroundParticles) {
-
-            return;
-
-        }
-
-
-        /*
-         * Nicht mehrfach erzeugen
-         */
-
-        if (
-            backgroundParticles.children.length > 0
-        ) {
-
-            return;
-
-        }
-
-
-        const particleCount =
-            window.innerWidth < 700
-                ? 18
-                : 35;
-
-
-        for (
-            let i = 0;
-            i < particleCount;
-            i++
-        ) {
-
-            const particle =
-                document.createElement(
-                    "span"
-                );
-
-
-            particle.classList.add(
-                "particle"
-            );
-
-
-            particle.style.left =
-                `${Math.random() * 100}%`;
-
-
-            particle.style.top =
-                `${Math.random() * 100}%`;
-
-
-            particle.style.animationDelay =
-                `${Math.random() * 6}s`;
-
-
-            particle.style.animationDuration =
-                `${4 + Math.random() * 6}s`;
-
-
-            const size =
-                1 +
-                Math.random() * 3;
-
-
-            particle.style.width =
-                `${size}px`;
-
-
-            particle.style.height =
-                `${size}px`;
-
-
-            backgroundParticles.appendChild(
-                particle
-            );
-
-        }
-
-
-        console.log(
-            `[NXT] ${particleCount} Hintergrund-Partikel erstellt`
-        );
-
-    }
-
-
-    createBackgroundParticles();
 
 
     /* =====================================================
@@ -949,20 +810,12 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    function handleReducedMotion() {
-
-        if (
-            !prefersReducedMotion.matches
-        ) {
-
-            return;
-
-        }
-
+    if (
+        prefersReducedMotion.matches
+    ) {
 
         document.documentElement.style
-            .scrollBehavior =
-            "auto";
+            .scrollBehavior = "auto";
 
 
         document
@@ -973,8 +826,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     element.style.animationDuration =
                         "0.01ms";
 
+
                     element.style.animationIterationCount =
                         "1";
+
 
                     element.style.transitionDuration =
                         "0.01ms";
@@ -985,10 +840,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    handleReducedMotion();
-
-
     /* =====================================================
        FINISHED
        ===================================================== */
-                          
+
+    console.log(
+        "[NXT] Alle Website-Funktionen geladen"
+    );
+
+});
