@@ -1,9 +1,12 @@
 /* =========================================================
    [NXT] NEXT GEN
    Main JavaScript
-   Futuristic Gaming Edition
    ========================================================= */
 
+
+/* =========================================================
+   DOM READY
+   ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -11,17 +14,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       NAVBAR
+       ELEMENTS
        ===================================================== */
 
     const navbar =
         document.querySelector(".navbar");
 
+    const menuToggle =
+        document.querySelector("#menuToggle");
+
+    const mobileMenu =
+        document.querySelector("#mobileMenu");
+
+    const mobileLinks =
+        document.querySelectorAll(
+            ".mobile-menu a"
+        );
+
+
+    /* =====================================================
+       NAVBAR SCROLL EFFECT
+       ===================================================== */
 
     function updateNavbar() {
 
         if (!navbar) return;
-
 
         if (window.scrollY > 40) {
 
@@ -46,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { passive: true }
     );
 
-
     updateNavbar();
 
 
@@ -55,54 +71,692 @@ document.addEventListener("DOMContentLoaded", () => {
        MOBILE MENU
        ===================================================== */
 
-    const menuToggle =
-        document.getElementById(
-            "menuToggle"
+    function closeMobileMenu() {
+
+        if (!mobileMenu || !menuToggle) {
+            return;
+        }
+
+
+        mobileMenu.classList.remove(
+            "active"
+        );
+
+        menuToggle.classList.remove(
+            "active"
         );
 
 
-    const mobileMenu =
-        document.getElementById(
-            "mobileMenu"
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
         );
 
 
-    if (
-        menuToggle &&
-        mobileMenu
-    ) {
+        menuToggle.setAttribute(
+            "aria-label",
+            "Menü öffnen"
+        );
+
+    }
+
+
+    function openMobileMenu() {
+
+        if (!mobileMenu || !menuToggle) {
+            return;
+        }
+
+
+        mobileMenu.classList.add(
+            "active"
+        );
+
+        menuToggle.classList.add(
+            "active"
+        );
+
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Menü schließen"
+        );
+
+    }
+
+
+    if (menuToggle && mobileMenu) {
 
         menuToggle.addEventListener(
             "click",
-            () => {
+            (event) => {
+
+                event.stopPropagation();
+
 
                 const isOpen =
-                    mobileMenu.classList.toggle(
-                        "open"
+                    mobileMenu.classList.contains(
+                        "active"
                     );
 
 
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    String(isOpen)
-                );
+                if (isOpen) {
 
+                    closeMobileMenu();
 
-                menuToggle.classList.toggle(
-                    "active",
-                    isOpen
-                );
+                } else {
+
+                    openMobileMenu();
+
+                }
 
             }
         );
 
 
-        const mobileLinks =
-            mobileMenu.querySelectorAll(
-                "a"
+        /* ---------------------------------------------
+           Mobile Links
+           --------------------------------------------- */
+
+        mobileLinks.forEach((link) => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    closeMobileMenu();
+
+                }
+            );
+
+        });
+
+
+        /* ---------------------------------------------
+           Klick außerhalb des Menüs
+           --------------------------------------------- */
+
+        document.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    !mobileMenu.contains(event.target) &&
+                    !menuToggle.contains(event.target)
+                ) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           ESC-Taste
+           --------------------------------------------- */
+
+        document.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (event.key === "Escape") {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           Menü bei Wechsel auf Desktop schließen
+           --------------------------------------------- */
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (window.innerWidth > 850) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       SCROLL ANIMATIONS
+       ===================================================== */
+
+    const animatedElements =
+        document.querySelectorAll(
+            ".section-title, " +
+            ".game-card, " +
+            ".stat, " +
+            ".event-box, " +
+            ".discord-section"
+        );
+
+
+    animatedElements.forEach((element) => {
+
+        element.classList.add(
+            "scroll-hidden"
+        );
+
+    });
+
+
+    if ("IntersectionObserver" in window) {
+
+        const observer =
+            new IntersectionObserver(
+                (entries, observer) => {
+
+                    entries.forEach((entry) => {
+
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+
+
+                        entry.target.classList.add(
+                            "visible"
+                        );
+
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    });
+
+                },
+                {
+                    threshold: 0.12,
+
+                    rootMargin:
+                        "0px 0px -40px 0px"
+                }
             );
 
 
+        animatedElements.forEach((element) => {
+
+            observer.observe(element);
+
+        });
+
+    } else {
+
+        /*
+         * Fallback für ältere Browser
+         */
+
+        animatedElements.forEach((element) => {
+
+            element.classList.add(
+                "visible"
+            );
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       SMOOTH NAVIGATION
+       ===================================================== */
+
+    const navigationLinks =
+        document.querySelectorAll(
+            'a[href^="#"]'
+        );
+
+
+    navigationLinks.forEach((link) => {
+
+        link.addEventListener(
+            "click",
+            (event) => {
+
+                const targetId =
+                    link.getAttribute(
+                        "href"
+                    );
+
+
+                /*
+                 * Platzhalter ignorieren
+                 */
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+
+                    return;
+
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+
+                    return;
+
+                }
+
+
+                event.preventDefault();
+
+
+                /*
+                 * Mobile Menü schließen
+                 */
+
+                closeMobileMenu();
+
+
+                const navbarHeight =
+                    navbar
+                        ? navbar.offsetHeight
+                        : 0;
+
+
+                const targetPosition =
+                    target
+                        .getBoundingClientRect()
+                        .top
+                    +
+                    window.scrollY
+                    -
+                    navbarHeight
+                    -
+                    10;
+
+
+                window.scrollTo({
+
+                    top:
+                        targetPosition,
+
+                    behavior:
+                        "smooth"
+
+                });
+
+            }
+        );
+
+    });
+
+
+
+    /* =====================================================
+       GAME CARD HOVER EFFECT
+       ===================================================== */
+
+    const gameCards =
+        document.querySelectorAll(
+            ".game-card"
+        );
+
+
+    gameCards.forEach((card) => {
+
+        const image =
+            card.querySelector(
+                ".game-image"
+            );
+
+
+        if (!image) return;
+
+
+        card.addEventListener(
+            "mouseenter",
+            () => {
+
+                image.style.transform =
+                    "scale(1.08)";
+
+            }
+        );
+
+
+        card.addEventListener(
+            "mouseleave",
+            () => {
+
+                image.style.transform =
+                    "scale(1)";
+
+            }
+        );
+
+    });
+
+
+
+    /* =====================================================
+       HERO PARALLAX EFFECT
+       ===================================================== */
+
+    const heroGlow =
+        document.querySelector(
+            ".hero-glow"
+        );
+
+
+    if (heroGlow) {
+
+        window.addEventListener(
+            "mousemove",
+            (event) => {
+
+                /*
+                 * Auf Smartphones deaktiviert
+                 */
+
+                if (
+                    window.innerWidth < 700
+                ) {
+
+                    return;
+
+                }
+
+
+                const x =
+                    (
+                        event.clientX /
+                        window.innerWidth
+                        - 0.5
+                    ) * 25;
+
+
+                const y =
+                    (
+                        event.clientY /
+                        window.innerHeight
+                        - 0.5
+                    ) * 25;
+
+
+                heroGlow.style.transform =
+                    `translate(${x}px, ${y}px)`;
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       BUTTON RIPPLE EFFECT
+       ===================================================== */
+
+    const buttons =
+        document.querySelectorAll(
+            ".button.primary, " +
+            ".discord-button"
+        );
+
+
+    buttons.forEach((button) => {
+
+        button.addEventListener(
+            "click",
+            (event) => {
+
+                const href =
+                    button.getAttribute(
+                        "href"
+                    );
+
+
+                /*
+                 * Bei internen Links kein Ripple
+                 */
+
+                if (
+                    href &&
+                    href.startsWith("#") &&
+                    href !== "#"
+                ) {
+
+                    return;
+
+                }
+
+
+                const ripple =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                ripple.classList.add(
+                    "button-ripple"
+                );
+
+
+                const rect =
+                    button.getBoundingClientRect();
+
+
+                ripple.style.left =
+                    `${
+                        event.clientX -
+                        rect.left
+                    }px`;
+
+
+                ripple.style.top =
+                    `${
+                        event.clientY -
+                        rect.top
+                    }px`;
+
+
+                button.appendChild(
+                    ripple
+                );
+
+
+                setTimeout(() => {
+
+                    ripple.remove();
+
+                }, 600);
+
+            }
+        );
+
+    });
+
+
+
+    /* =====================================================
+       DISCORD MITGLIEDERZAHL
+       ===================================================== */
+
+    const memberCountElements =
+        document.querySelectorAll(
+            "[data-discord-members]"
+        );
+
+
+    async function loadDiscordMembers() {
+
+        if (!memberCountElements.length) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://fifth-verification-exams-walks.trycloudflare.com/api/discord/members"
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const memberCount =
+                Number(data.members);
+
+
+            if (Number.isNaN(memberCount)) {
+
+                throw new Error(
+                    "Ungültige Mitgliederzahl"
+                );
+
+            }
+
+
+            memberCountElements.forEach(
+                (element) => {
+
+                    element.textContent =
+                        memberCount.toLocaleString(
+                            "de-DE"
+                        );
+
+                }
+            );
+
+
+            console.log(
+                `[NXT] Discord Mitglieder geladen: ${memberCount}`
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "[NXT] Discord Mitglieder konnten nicht geladen werden:",
+                error
+            );
+
+
+            memberCountElements.forEach(
+                (element) => {
+
+                    element.textContent =
+                        "—";
+
+                }
+            );
+
+        }
+
+    }
+
+
+    loadDiscordMembers();
+
+
+
+    /* =====================================================
+       CURRENT YEAR
+       ===================================================== */
+
+    const yearElements =
+        document.querySelectorAll(
+            "[data-year]"
+        );
+
+
+    yearElements.forEach((element) => {
+
+        element.textContent =
+            new Date()
+                .getFullYear();
+
+    });
+
+
+
+    /* =====================================================
+       REDUCE MOTION
+       ===================================================== */
+
+    const prefersReducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+
+    if (prefersReducedMotion.matches) {
+
+        document.documentElement.style
+            .scrollBehavior = "auto";
+
+
+        document
+            .querySelectorAll("*")
+            .forEach((element) => {
+
+                element.style.animationDuration =
+                    "0.01ms";
+
+                element.style.animationIterationCount =
+                    "1";
+
+                element.style.transitionDuration =
+                    "0.01ms";
+
+            });
+
+    }
+
+
+
+    /* =====================================================
+       FINISHED
+       ===================================================== */
+
+    console.log(
+        "[NXT] Alle Website-Funktionen geladen"
+    );
+
+});
         mobileLinks.forEach(
             (link) => {
 
