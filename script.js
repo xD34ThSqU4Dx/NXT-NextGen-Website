@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const memberCountElements =
-        document.querySelectorAll(
-            "#discordMemberCount, [data-discord-members]"
-        );
+    document.querySelectorAll(
+        "[data-discord-members]"
+    );
 
     const heroGlow =
         document.querySelector(".hero-glow");
