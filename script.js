@@ -3,11 +3,6 @@
    Main JavaScript
    ========================================================= */
 
-
-/* =========================================================
-   DOM READY
-   ========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("[NXT] Next Gen Website gestartet");
@@ -31,14 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
             ".mobile-menu a"
         );
 
-    const memberCountElements =
-        document.querySelectorAll(
-            "#discordMemberCount, [data-discord-members]"
-        );
-
     const backgroundParticles =
         document.querySelector(
             "#backgroundParticles"
+        );
+
+    const memberCountElements =
+        document.querySelectorAll(
+            "#discordMemberCount, [data-discord-members]"
         );
 
 
@@ -51,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!navbar) {
             return;
         }
-
 
         if (window.scrollY > 40) {
 
@@ -78,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-
     updateNavbar();
-
 
 
     /* =====================================================
@@ -93,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         mobileMenu.classList.remove(
             "active"
         );
@@ -103,6 +94,398 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         menuToggle.classList.remove(
+            "active"
+        );
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Menü öffnen"
+        );
+
+    }
+
+
+    function openMobileMenu() {
+
+        if (!mobileMenu || !menuToggle) {
+            return;
+        }
+
+        mobileMenu.classList.add(
+            "active"
+        );
+
+        mobileMenu.classList.add(
+            "open"
+        );
+
+        menuToggle.classList.add(
+            "active"
+        );
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Menü schließen"
+        );
+
+    }
+
+
+    if (menuToggle && mobileMenu) {
+
+        menuToggle.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
+
+                const isOpen =
+                    mobileMenu.classList.contains(
+                        "active"
+                    );
+
+                if (isOpen) {
+
+                    closeMobileMenu();
+
+                } else {
+
+                    openMobileMenu();
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           Mobile Links
+           --------------------------------------------- */
+
+        mobileLinks.forEach(
+            (link) => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        closeMobileMenu();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           Klick außerhalb
+           --------------------------------------------- */
+
+        document.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    !mobileMenu.contains(
+                        event.target
+                    ) &&
+                    !menuToggle.contains(
+                        event.target
+                    )
+                ) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           ESC-Taste
+           --------------------------------------------- */
+
+        document.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (event.key === "Escape") {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+        /* ---------------------------------------------
+           Desktop-Wechsel
+           --------------------------------------------- */
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (window.innerWidth > 850) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       SCROLL ANIMATIONS
+       ===================================================== */
+
+    const animatedElements =
+        document.querySelectorAll(
+            ".section-title, " +
+            ".game-card, " +
+            ".stat, " +
+            ".event-box, " +
+            ".discord-section"
+        );
+
+
+    animatedElements.forEach(
+        (element) => {
+
+            element.classList.add(
+                "scroll-hidden"
+            );
+
+        }
+    );
+
+
+    if (
+        "IntersectionObserver" in window
+    ) {
+
+        const observer =
+            new IntersectionObserver(
+                (entries, observer) => {
+
+                    entries.forEach(
+                        (entry) => {
+
+                            if (
+                                !entry.isIntersecting
+                            ) {
+
+                                return;
+
+                            }
+
+                            entry.target.classList.add(
+                                "visible"
+                            );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.12,
+
+                    rootMargin:
+                        "0px 0px -50px 0px"
+                }
+            );
+
+
+        animatedElements.forEach(
+            (element) => {
+
+                observer.observe(
+                    element
+                );
+
+            }
+        );
+
+    } else {
+
+        animatedElements.forEach(
+            (element) => {
+
+                element.classList.add(
+                    "visible"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       SMOOTH NAVIGATION
+       ===================================================== */
+
+    const navigationLinks =
+        document.querySelectorAll(
+            'a[href^="#"]'
+        );
+
+
+    navigationLinks.forEach(
+        (link) => {
+
+            link.addEventListener(
+                "click",
+                (event) => {
+
+                    const targetId =
+                        link.getAttribute(
+                            "href"
+                        );
+
+                    if (
+                        !targetId ||
+                        targetId === "#"
+                    ) {
+
+                        return;
+
+                    }
+
+                    const target =
+                        document.querySelector(
+                            targetId
+                        );
+
+                    if (!target) {
+
+                        return;
+
+                    }
+
+                    event.preventDefault();
+
+                    closeMobileMenu();
+
+
+                    const navbarHeight =
+                        navbar
+                            ? navbar.offsetHeight
+                            : 0;
+
+
+                    const targetPosition =
+                        target
+                            .getBoundingClientRect()
+                            .top
+                        +
+                        window.scrollY
+                        -
+                        navbarHeight
+                        -
+                        10;
+
+
+                    window.scrollTo({
+
+                        top:
+                            targetPosition,
+
+                        behavior:
+                            "smooth"
+
+                    });
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       ACTIVE NAVIGATION
+       ===================================================== */
+
+    const sections =
+        document.querySelectorAll(
+            "section[id]"
+        );
+
+    const navLinks =
+        document.querySelectorAll(
+            ".navbar nav a"
+        );
+
+
+    if (
+        "IntersectionObserver" in window &&
+        sections.length &&
+        navLinks.length
+    ) {
+
+        const sectionObserver =
+            new IntersectionObserver(
+                (entries) => {
+
+                    entries.forEach(
+                        (entry) => {
+
+                            if (
+                                !entry.isIntersecting
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            const id =
+                                entry.target.id;
+
+
+                            navLinks.forEach(
+                                (link) => {
+
+                                    link.classList.remove(
+                                        "active"
+                                    );
+
+
+                                    if (
+                                        link.getAttribute(
+                                            "href"
+                                        ) ===
+                                        `#${id}`
+                                    ) {
+
+                                        link.classList.add(
+                                            "active"
+                                        );
+
+                                    }
+
+                                       menuToggle.classList.remove(
             "active"
         );
 
